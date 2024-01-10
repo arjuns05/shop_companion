@@ -2,10 +2,11 @@
 
 let data = {
     "event":"onStop/onStart",
-    "values":{
+    "prefs":{
         "productTitle": "title",
-        "price":"price"
-        // "link": "url"
+        "price":"price",
+        "link": "url"
+        
     }
 }
 
@@ -16,16 +17,21 @@ chrome.runtime.onMessage.addListener(data => {
         
         case 'onStart':
             console.log("OnStart in background")
-            
-            fetch("http://localhost:3000/sentMessage", {
+            // let payload ={
+            //     "title": data.prefs.productTitle,
+            //     "price": data.prefs.price, 
+            //     "url" : data.prefs.link
+            // }
+            fetch("http://localhost:3000/createProduct", {
                 mode :'no-cors',
                 method:'post', 
                 headers: {
+                    'Accept':'application/json',
                     'Content-Type': 'application/json'
                },
                 body: JSON.stringify({
-                    text: prefs
-                  })
+                     prefs
+                })
             })
             .then(response => response.text())
             .then(body => {
@@ -57,3 +63,5 @@ chrome.runtime.onMessage.addListener(data => {
 // const { default: scrapeDetailsFromPage } = exports.scrapeDetailsFromPage
 
 // console.log(scrapeDetailsFromPage())
+
+//what to put in the body 
