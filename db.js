@@ -7,14 +7,23 @@ const pool = new Pool({
   port: 5432,
 })
 let display;
-const getProducts = (request, response) => {
-    pool.query('SELECT * FROM product ORDER BY id ASC', (error, results) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).send(results.rows)
+const getProducts = async (request, response) => {
+    // pool.query('SELECT * FROM product ORDER BY id ASC', (error, results) => {
+    //   if (error) {
+    //     throw error
+    //   }
+    //   response.status(200).send(results.rows)
       
-    })
+    // })
+    try {
+      const result = await pool.query('SELECT * FROM product');
+      const rows = result.rows;
+      response.json(rows);
+    } catch (error) {
+      console.error('Error querying database', error);
+      response.status(500).send('Internal Server Error');
+    }
+    
 
   }
 

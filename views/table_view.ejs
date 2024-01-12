@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+  <title>Data Table</title>
+</head>
+<body>
+
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>productTitle</th>
+        <th>price</th>
+        <th>link</th>
+        
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    fetch('getProducts')
+      .then(response => response.json())
+      .then(data => {
+        const tableBody = document.querySelector('#dataTable tbody');
+        data.forEach(row => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${row.producttitle}</td><td>${row.price}</td><td><a href = "${row.link}">${row.link}</a></td>`; // Add more cells based on your database columns
+          tableBody.appendChild(tr);
+        });
+      })
+      .catch(error => console.error('Error fetching data', error));
+  </script>
+
+</body>
+</html>

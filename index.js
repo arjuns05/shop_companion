@@ -14,6 +14,7 @@ const pool = require('./db')
 // }
 
 const app = express();
+app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.text({
     type: 'text/plain'
@@ -33,6 +34,9 @@ let price;
 let link;
 app.post('/createProduct', db.createProduct);
 app.get('/getProducts', db.getProducts)
+app.get('/displayProducts', (req,res) =>{
+  res.render("table_view")
+})
 app.post('/sentMessage', async(req,res, next)=>{
   let obj = JSON.parse(req.body)
   //  console.log(obj)
@@ -44,24 +48,24 @@ app.post('/sentMessage', async(req,res, next)=>{
  
   const toSend = obj.prefs
   console.log(toSend)
-  fetch("http://localhost:3000/createProduct", {
-                mode :'no-cors',
-                method:'post', 
-                headers: {
-                    'Accept':'application/json',
-                    'Content-Type': 'application/json'
-               },
-                body: JSON.stringify({
-                     obj
-                })
-            })
-            .then(response => response.text())
-            .then(body => {
-            console.log('Data sent successfully:' + body);
-            })
-            .catch(error => {
-            console.error('Error sending data:', error);
-  });
+  // fetch("http://localhost:3000/createProduct", {
+  //               mode :'no-cors',
+  //               method:'post', 
+  //               headers: {
+  //                   'Accept':'application/json',
+  //                   'Content-Type': 'application/json'
+  //              },
+  //               body: JSON.stringify({
+  //                    obj
+  //               })
+  //           })
+  //           .then(response => response.text())
+  //           .then(body => {
+  //           console.log('Data sent successfully:' + body);
+  //           })
+  //           .catch(error => {
+  //           console.error('Error sending data:', error);
+  // });
   
     
   res.status(200).send('all good')
